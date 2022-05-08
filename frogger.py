@@ -3,6 +3,9 @@ import pygame
 # hasznaljuk az osszes erteket a locals filebol pl.: gombok kezelese
 from pygame.locals import *
 
+# randint method random moduljanak importalasa
+from random import randint
+
 # Kotelezo lepes a pygame lib hasznalatanal ez allitja ossze az alapokat
 pygame.init()
 
@@ -28,6 +31,20 @@ level_h = 115
 level_w = 115
 level = pygame.transform.scale(level, (level_w, level_h))
 
+auto1 = pygame.image.load('auto.png')
+auto1_h = 115
+auto1_w = 115
+auto1 = pygame.transform.scale(auto1, (auto1_w, auto1_h))
+
+auto2 = pygame.image.load('auto.png')
+auto2_h = 115
+auto2_w = 115
+auto2 = pygame.transform.scale(auto2, (auto2_w, auto2_h))
+
+auto3 = pygame.image.load('auto.png')
+auto3_h = 115
+auto3_w = 115
+auto3 = pygame.transform.scale(auto3, (auto3_w, auto3_h))
 
 # Itt definialjuk a konstansokat
 WHITE = (255, 255, 255)
@@ -47,23 +64,87 @@ def main():
     hatter_rect = pygame.Rect(0, 0, hatter_w, hatter_h)
     beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
     level_rect = pygame.Rect(225, 0, level_w, level_h)
+    auto1_rect = pygame.Rect(500, 450, auto1_w, auto1_h)
+    auto2_rect = pygame.Rect(-50, 300, auto2_w, auto2_h)
+    auto3_rect = pygame.Rect(500, 100, auto3_w, auto3_h)
+    
+    # autok mozgasahoz szukseges default beallitasok
+    direction_1 = -1
+    direction_2 = 1
+    direction_3 = -1
+    speed_x_1 = 2
+    speed_x_2 = 2
+    speed_x_3 = 2
     
     # bejutott bekak szamlalojanak beallitasa - alapertekek
     beka_szam = 0
+    eletek = 3
     is_connected = False
 
     # Vegtelen ciklus, ami eletben tarja az ablakot, egyebkent rogton bezarodna 
     # az ablaak, amit fent letrehoztunk, mert veget erna a program
     run = True
+    
     while run:
+    
         # Itt tartjuk kordaban az FPS-t
         clock.tick()
+        
+        # elso auto mozgasa
+        if auto1_rect.right <= 0 or auto1_rect.left >= 550:
+            direction_1 *= -1
+            speed_x_1 = randint(1, 2) * direction_1
+            
+        if speed_x_1 == 0:
+            speed_x_1 = randint(1, 2) * direction_1 
+        
+        if auto1_rect.right == 550:
+            auto1_rect.right <= 0
+            
+        if auto1_rect.right == 550:
+            auto1_rect = pygame.Rect(500, 450, auto1_w, auto1_h)
+
+        auto1_rect.right += speed_x_1 * direction_1
+        pygame.draw.rect(WIN, (0,   255,   0), auto1_rect)
+        
+        # masodik auto mozgasa
+        if auto2_rect.left <= 0 or auto2_rect.right >= 550:
+            direction_2 *= 1
+            speed_x_2 = randint(1, 2) * direction_2
+            
+        if speed_x_2 == 0:
+            speed_x_2 = randint(1, 2) * direction_2
+        
+        if auto2_rect.left == 550:
+            auto2_rect.left <= 0
+            
+        if auto2_rect.left == 550:
+            auto2_rect = pygame.Rect(-50, 300, auto2_w, auto2_h)
+           
+        auto2_rect.left += speed_x_2 * direction_2
+        pygame.draw.rect(WIN, (0,   255,   0), auto1_rect)
+        
+        # harmadik auto mozgasa
+        if auto3_rect.right <= 0 or auto3_rect.left >= 550:
+            direction_3 *= -1
+            speed_x_3 = randint(1, 2) * direction_3
+            
+        if speed_x_3 == 0:
+            speed_x_3 = randint(1, 2) * direction_3  
+        
+        if auto3_rect.right == 550:
+            auto3_rect.right <= 0
+           
+        auto3_rect.right += speed_x_3 * direction_3
+        pygame.draw.rect(WIN, (0,   255,   0), auto1_rect)
+
         # Itt ellenorizzuk hogy tortent-e valamilyen esemeny ez az esemeny lehet 
         # gombnyomas, eger mozgatas, kattintas, ablak mozgatas
         for event in pygame.event.get():
-            # Ez az if ellenorzi, h rakattintottunk-e az x gombra az ablakon
-            if event.type == pygame.QUIT:
-                # Ha rakattintunk az x-re, akkor vege a vegtelen ciklusnak
+            # kilepes az x-re kattintva
+            if (event.type == pygame.QUIT or
+            # kilepes ESC billenytuvel
+            (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
                 run = False
              
             # Beka mozgasanak beallitasa             
@@ -76,7 +157,7 @@ def main():
                     beka_rect.y -= VEL
                 if event.key ==K_s:
                     beka_rect.y += VEL
-         
+                         
         # bejutott bekak szamlalojanak elkeszitese         
         if level_rect.colliderect(beka_rect) and (is_connected == False):
             beka_szam += 1
@@ -85,27 +166,51 @@ def main():
         if not level_rect.colliderect(beka_rect):
             is_connected = False
             
+        # utkozes autokkal
+        if auto1_rect.colliderect(beka_rect):
+            beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
+            eletek -= 1
+            
+        if auto2_rect.colliderect(beka_rect):
+            beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
+            eletek -= 1
+            
+        if auto3_rect.colliderect(beka_rect):
+            beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
+            eletek -= 1
+                   
         # szoveg definialasa, bejuttatott bekak szama
         font = pygame.font.Font('freesansbold.ttf', 14)
         beka_szamlalo = font.render(f'Átjuttatott békák száma: {beka_szam}', True, GREEN)
         beka_szamlalo_rect = beka_szamlalo.get_rect()
         beka_szamlalo_rect.x = 10
         beka_szamlalo_rect.y = 20
-
+        
+        # elet szamlalo
+        font = pygame.font.Font('freesansbold.ttf', 14)
+        elet_szamlalo = font.render(f'Életek: {eletek}', True, GREEN)
+        elet_szamlalo_rect = elet_szamlalo.get_rect()
+        elet_szamlalo_rect.x = 10
+        elet_szamlalo_rect.y = 40
+                
         # Beallitjuk a hatterer szinet
         WIN.fill(WHITE)
               
         # Kepek megjelenitese
         WIN.blit(hatter, (hatter_rect.x, hatter_rect.y))
         WIN.blit(level, (level_rect.x, level_rect.y))
+        WIN.blit(auto1, (auto1_rect.x, auto1_rect.y))
+        WIN.blit(auto2, (auto2_rect.x, auto2_rect.y))
+        WIN.blit(auto3, (auto3_rect.x, auto3_rect.y))
         WIN.blit(beka, (beka_rect.x, beka_rect.y))
         
         #szoveg kiirasa
         WIN.blit(beka_szamlalo, (beka_szamlalo_rect.x, beka_szamlalo_rect.y))
-
+        WIN.blit(elet_szamlalo, (elet_szamlalo_rect.x, elet_szamlalo_rect.y))        
+                
         # Frissitjuk a teljes kepernyot, hogy ha valtozna valami akkor az megjelenjen
         pygame.display.update()
-
+        
     # Lezarjuk az inicializalt funkciokat ,amit a pygame.init() letrehozott
     pygame.quit()
 
