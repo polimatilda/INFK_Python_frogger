@@ -36,7 +36,7 @@ auto1_h = 115
 auto1_w = 115
 auto1 = pygame.transform.scale(auto1, (auto1_w, auto1_h))
 
-auto2 = pygame.image.load('auto.png')
+auto2 = pygame.image.load('auto2.png')
 auto2_h = 115
 auto2_w = 115
 auto2 = pygame.transform.scale(auto2, (auto2_w, auto2_h))
@@ -72,9 +72,9 @@ def main():
     direction_1 = -1
     direction_2 = 1
     direction_3 = -1
-    speed_x_1 = 2
+    speed_x_1 = 1
     speed_x_2 = 2
-    speed_x_3 = 2
+    speed_x_3 = 3
     
     # bejutott bekak szamlalojanak beallitasa - alapertekek
     beka_szam = 0
@@ -93,15 +93,15 @@ def main():
         # elso auto mozgasa
         if auto1_rect.right <= 0 or auto1_rect.left >= 550:
             direction_1 *= -1
-            speed_x_1 = randint(1, 2) * direction_1
+            speed_x_1 = randint(1, 3) * direction_1
             
         if speed_x_1 == 0:
-            speed_x_1 = randint(1, 2) * direction_1 
+            speed_x_1 = randint(1, 3) * direction_1 
         
         if auto1_rect.right == 550:
             auto1_rect.right <= 0
             
-        if auto1_rect.right == 550:
+        if auto1_rect.right == 0:
             auto1_rect = pygame.Rect(500, 450, auto1_w, auto1_h)
 
         auto1_rect.right += speed_x_1 * direction_1
@@ -110,10 +110,10 @@ def main():
         # masodik auto mozgasa
         if auto2_rect.left <= 0 or auto2_rect.right >= 550:
             direction_2 *= 1
-            speed_x_2 = randint(1, 2) * direction_2
+            speed_x_2 = randint(1, 3) * direction_2
             
         if speed_x_2 == 0:
-            speed_x_2 = randint(1, 2) * direction_2
+            speed_x_2 = randint(1, 3) * direction_2
         
         if auto2_rect.left == 550:
             auto2_rect.left <= 0
@@ -122,21 +122,24 @@ def main():
             auto2_rect = pygame.Rect(-50, 300, auto2_w, auto2_h)
            
         auto2_rect.left += speed_x_2 * direction_2
-        pygame.draw.rect(WIN, (0,   255,   0), auto1_rect)
+        pygame.draw.rect(WIN, (0,   255,   0), auto2_rect)
         
         # harmadik auto mozgasa
         if auto3_rect.right <= 0 or auto3_rect.left >= 550:
             direction_3 *= -1
-            speed_x_3 = randint(1, 2) * direction_3
+            speed_x_3 = randint(1, 3) * direction_3
             
         if speed_x_3 == 0:
-            speed_x_3 = randint(1, 2) * direction_3  
+            speed_x_3 = randint(1, 3) * direction_3  
         
         if auto3_rect.right == 550:
             auto3_rect.right <= 0
+            
+        if auto3_rect.right == 0:
+            auto3_rect = pygame.Rect(500, 100, auto3_w, auto3_h)
            
         auto3_rect.right += speed_x_3 * direction_3
-        pygame.draw.rect(WIN, (0,   255,   0), auto1_rect)
+        pygame.draw.rect(WIN, (0,   255,   0), auto3_rect)
 
         # Itt ellenorizzuk hogy tortent-e valamilyen esemeny ez az esemeny lehet 
         # gombnyomas, eger mozgatas, kattintas, ablak mozgatas
