@@ -80,6 +80,10 @@ def main():
     beka_szam = 0
     eletek = 3
     is_connected = False
+    
+    # idohoz alapertekek beallitasa
+    masodperc_szam = 0
+    kattanas_szamlalao = 0
 
     # Vegtelen ciklus, ami eletben tarja az ablakot, egyebkent rogton bezarodna 
     # az ablaak, amit fent letrehoztunk, mert veget erna a program
@@ -90,8 +94,20 @@ def main():
         # Itt tartjuk kordaban az FPS-t
         clock.tick()
         
+        # jatekido szamlalasa
+        kattanas_szamlalao += 1
+        if kattanas_szamlalao == 60:
+            masodperc_szam += 1
+            kattanas_szamlalao = 0
+        
+        font = pygame.font.Font('freesansbold.ttf', 14)
+        ido_szoveg = font.render(str(masodperc_szam), True, WHITE)
+        ido_rect = ido_szoveg.get_rect()
+        ido_rect.x = 500
+        ido_rect.y = 620
+        
         # elso auto mozgasa
-        if auto1_rect.right <= 0 or auto1_rect.left >= 550:
+        if auto1_rect.right <= -50 or auto1_rect.left >= 600:
             direction_1 *= -1
             speed_x_1 = randint(1, 3) * direction_1
             
@@ -108,9 +124,9 @@ def main():
         pygame.draw.rect(WIN, (0,   255,   0), auto1_rect)
         
         # masodik auto mozgasa
-        if auto2_rect.left <= 0 or auto2_rect.right >= 550:
-            direction_2 *= 1
-            speed_x_2 = randint(1, 3) * direction_2
+        #if auto2_rect.left <= 0 or auto2_rect.right >= 550:
+        #   direction_2 *= 1
+        #   speed_x_2 = randint(1, 3) * direction_2
             
         if speed_x_2 == 0:
             speed_x_2 = randint(1, 3) * direction_2
@@ -125,7 +141,7 @@ def main():
         pygame.draw.rect(WIN, (0,   255,   0), auto2_rect)
         
         # harmadik auto mozgasa
-        if auto3_rect.right <= 0 or auto3_rect.left >= 550:
+        if auto3_rect.right <= -50 or auto3_rect.left >= 600:
             direction_3 *= -1
             speed_x_3 = randint(1, 3) * direction_3
             
@@ -165,6 +181,7 @@ def main():
         if level_rect.colliderect(beka_rect) and (is_connected == False):
             beka_szam += 1
             is_connected = True
+            beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
             
         if not level_rect.colliderect(beka_rect):
             is_connected = False
@@ -189,12 +206,18 @@ def main():
         beka_szamlalo_rect.x = 10
         beka_szamlalo_rect.y = 20
         
+        if beka_szam == 3:
+            return main()
+        
         # elet szamlalo
         font = pygame.font.Font('freesansbold.ttf', 14)
         elet_szamlalo = font.render(f'Életek: {eletek}', True, GREEN)
         elet_szamlalo_rect = elet_szamlalo.get_rect()
         elet_szamlalo_rect.x = 10
         elet_szamlalo_rect.y = 40
+        
+        if eletek == 0:
+            return main()
                 
         # Beallitjuk a hatterer szinet
         WIN.fill(WHITE)
@@ -209,7 +232,9 @@ def main():
         
         #szoveg kiirasa
         WIN.blit(beka_szamlalo, (beka_szamlalo_rect.x, beka_szamlalo_rect.y))
-        WIN.blit(elet_szamlalo, (elet_szamlalo_rect.x, elet_szamlalo_rect.y))        
+        WIN.blit(elet_szamlalo, (elet_szamlalo_rect.x, elet_szamlalo_rect.y))
+        WIN.blit(ido_szoveg, (ido_rect.x, ido_rect.y))
+                              
                 
         # Frissitjuk a teljes kepernyot, hogy ha valtozna valami akkor az megjelenjen
         pygame.display.update()
