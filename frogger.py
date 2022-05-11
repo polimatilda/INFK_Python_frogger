@@ -22,28 +22,28 @@ hatter_w = 550
 hatter = pygame.transform.scale(hatter, (hatter_w, hatter_h))
 
 beka = pygame.image.load('beka.png')
-beka_h = 75
+beka_h = 58
 beka_w = 75
 beka = pygame.transform.scale(beka, (beka_w, beka_h))
 
 level = pygame.image.load('level.png')
-level_h = 115
+level_h = 105
 level_w = 115
 level = pygame.transform.scale(level, (level_w, level_h))
 
 auto1 = pygame.image.load('auto.png')
-auto1_h = 115
-auto1_w = 115
+auto1_h = 75
+auto1_w = 108
 auto1 = pygame.transform.scale(auto1, (auto1_w, auto1_h))
 
 auto2 = pygame.image.load('auto2.png')
-auto2_h = 115
-auto2_w = 115
+auto2_h = 75
+auto2_w = 108
 auto2 = pygame.transform.scale(auto2, (auto2_w, auto2_h))
 
 auto3 = pygame.image.load('auto.png')
-auto3_h = 115
-auto3_w = 115
+auto3_h = 75
+auto3_w = 108
 auto3 = pygame.transform.scale(auto3, (auto3_w, auto3_h))
 
 # Itt definialjuk a konstansokat
@@ -62,11 +62,11 @@ def main():
     
     # Kepek befoglalo negszogenek beallitasa
     hatter_rect = pygame.Rect(0, 0, hatter_w, hatter_h)
-    beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
+    beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
     level_rect = pygame.Rect(225, 0, level_w, level_h)
-    auto1_rect = pygame.Rect(500, 450, auto1_w, auto1_h)
+    auto1_rect = pygame.Rect(500, 470, auto1_w, auto1_h)
     auto2_rect = pygame.Rect(-50, 300, auto2_w, auto2_h)
-    auto3_rect = pygame.Rect(500, 100, auto3_w, auto3_h)
+    auto3_rect = pygame.Rect(500, 130, auto3_w, auto3_h)
     
     # autok mozgasahoz szukseges default beallitasok
     direction_1 = -1
@@ -118,7 +118,7 @@ def main():
             auto1_rect.right <= 0
             
         if auto1_rect.right == 0:
-            auto1_rect = pygame.Rect(500, 450, auto1_w, auto1_h)
+            auto1_rect = pygame.Rect(500, 470, auto1_w, auto1_h)
 
         auto1_rect.right += speed_x_1 * direction_1
         pygame.draw.rect(WIN, (0,   255,   0), auto1_rect)
@@ -141,9 +141,9 @@ def main():
         pygame.draw.rect(WIN, (0,   255,   0), auto2_rect)
         
         # harmadik auto mozgasa
-        if auto3_rect.right <= -50 or auto3_rect.left >= 600:
-            direction_3 *= -1
-            speed_x_3 = randint(1, 3) * direction_3
+        #if auto3_rect.right <= -30 or auto3_rect.left >= 600:
+         #   direction_3 *= -1
+          #  speed_x_3 = randint(1, 3) * direction_3
             
         if speed_x_3 == 0:
             speed_x_3 = randint(1, 3) * direction_3  
@@ -151,8 +151,8 @@ def main():
         if auto3_rect.right == 550:
             auto3_rect.right <= 0
             
-        if auto3_rect.right == 0:
-            auto3_rect = pygame.Rect(500, 100, auto3_w, auto3_h)
+        if auto3_rect.right == -10:
+            auto3_rect = pygame.Rect(500, 130, auto3_w, auto3_h)
            
         auto3_rect.right += speed_x_3 * direction_3
         pygame.draw.rect(WIN, (0,   255,   0), auto3_rect)
@@ -181,22 +181,26 @@ def main():
         if level_rect.colliderect(beka_rect) and (is_connected == False):
             beka_szam += 1
             is_connected = True
-            beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
+            pygame.time.wait(1000)
+            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
             
         if not level_rect.colliderect(beka_rect):
             is_connected = False
             
         # utkozes autokkal
         if auto1_rect.colliderect(beka_rect):
-            beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
+            pygame.time.wait(1000)
+            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
             eletek -= 1
             
         if auto2_rect.colliderect(beka_rect):
-            beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
+            pygame.time.wait(1000)
+            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
             eletek -= 1
             
         if auto3_rect.colliderect(beka_rect):
-            beka_rect = pygame.Rect(225, 575, beka_w, beka_h)
+            pygame.time.wait(1000)
+            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
             eletek -= 1
                    
         # szoveg definialasa, bejuttatott bekak szama
@@ -207,6 +211,7 @@ def main():
         beka_szamlalo_rect.y = 20
         
         if beka_szam == 3:
+            pygame.time.wait(1000)
             return main()
         
         # elet szamlalo
@@ -217,6 +222,7 @@ def main():
         elet_szamlalo_rect.y = 40
         
         if eletek == 0:
+            pygame.time.wait(1000)
             return main()
                 
         # Beallitjuk a hatterer szinet
