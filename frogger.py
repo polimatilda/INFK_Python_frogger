@@ -60,6 +60,10 @@ def main():
     # sebesseggel futhat a jatek
     clock = pygame.time.Clock()
     
+    # idohoz alapertekek beallitasa
+    masodperc_szam = 0
+    kattanas_szamlalo = 0
+    
     # Kepek befoglalo negszogenek beallitasa
     hatter_rect = pygame.Rect(0, 0, hatter_w, hatter_h)
     beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
@@ -80,10 +84,6 @@ def main():
     beka_szam = 0
     eletek = 3
     is_connected = False
-    
-    # idohoz alapertekek beallitasa
-    masodperc_szam = 0
-    kattanas_szamlalao = 0
 
     # Vegtelen ciklus, ami eletben tarja az ablakot, egyebkent rogton bezarodna 
     # az ablaak, amit fent letrehoztunk, mert veget erna a program
@@ -92,13 +92,13 @@ def main():
     while run:
     
         # Itt tartjuk kordaban az FPS-t
-        clock.tick()
+        clock.tick(60)
         
         # jatekido szamlalasa
-        kattanas_szamlalao += 1
-        if kattanas_szamlalao == 60:
+        kattanas_szamlalo += 1
+        if kattanas_szamlalo == 60:
             masodperc_szam += 1
-            kattanas_szamlalao = 0
+            kattanas_szamlalo = 0
         
         font = pygame.font.Font('freesansbold.ttf', 14)
         ido_szoveg = font.render(str(masodperc_szam), True, WHITE)
