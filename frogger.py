@@ -166,7 +166,7 @@ def main():
             (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
                 run = False
              
-            # Beka mozgasanak beallitasa             
+            # Beka mozgasanak beallitasa AWSD            
             if event.type == KEYDOWN:
                 if event.key ==K_d:
                     beka_rect.x += VEL
@@ -176,33 +176,44 @@ def main():
                     beka_rect.y -= VEL
                 if event.key ==K_s:
                     beka_rect.y += VEL
+                    
+            # beka mozgatasa nyilakkal
+            if event.type == KEYDOWN:
+                if event.key ==K_RIGHT:
+                    beka_rect.x += VEL
+                if event.key ==K_LEFT:
+                    beka_rect.x -= VEL
+                if event.key ==K_UP:
+                    beka_rect.y -= VEL
+                if event.key ==K_DOWN:
+                    beka_rect.y += VEL
                          
         # bejutott bekak szamlalojanak elkeszitese         
         if level_rect.colliderect(beka_rect) and (is_connected == False):
             beka_szam += 1
             is_connected = True
-            pygame.time.wait(1000)
+            #pygame.time.wait(1000)
             beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
             
         if not level_rect.colliderect(beka_rect):
             is_connected = False
             
-        # utkozes autokkal
+        # utkozes autokkal, eletvesztes
         if auto1_rect.colliderect(beka_rect):
-            pygame.time.wait(1000)
-            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
+            #pygame.time.wait(1000)
             eletek -= 1
-            
+            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
+                        
         if auto2_rect.colliderect(beka_rect):
-            pygame.time.wait(1000)
-            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
+            #pygame.time.wait(1000)
             eletek -= 1
-            
+            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
+                        
         if auto3_rect.colliderect(beka_rect):
-            pygame.time.wait(1000)
-            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
+            #pygame.time.wait(1000)
             eletek -= 1
-                   
+            beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
+                               
         # szoveg definialasa, bejuttatott bekak szama
         font = pygame.font.Font('freesansbold.ttf', 14)
         beka_szamlalo = font.render(f'Átjuttatott békák száma: {beka_szam}', True, GREEN)
@@ -210,8 +221,9 @@ def main():
         beka_szamlalo_rect.x = 10
         beka_szamlalo_rect.y = 20
         
+        # harom beka bejutasakor gyozelem, a jatek ujrakezdodik
         if beka_szam == 3:
-            pygame.time.wait(1000)
+            #pygame.time.wait(1000)
             return main()
         
         # elet szamlalo
@@ -221,8 +233,9 @@ def main():
         elet_szamlalo_rect.x = 10
         elet_szamlalo_rect.y = 40
         
+        # ha haromszor eluti a bekat egy auto, a jatek ujraindul
         if eletek == 0:
-            pygame.time.wait(1000)
+            #pygame.time.wait(1000)
             return main()
                 
         # Beallitjuk a hatterer szinet
