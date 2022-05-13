@@ -72,7 +72,7 @@ def main():
     auto2_rect = pygame.Rect(-50, 300, auto2_w, auto2_h)
     auto3_rect = pygame.Rect(500, 130, auto3_w, auto3_h)
     
-    # autok mozgasahoz szukseges default beallitasok
+    # autok mozgasahoz szukseges kezdo beallitasok
     direction_1 = -1
     direction_2 = 1
     direction_3 = -1
@@ -100,11 +100,18 @@ def main():
             masodperc_szam += 1
             kattanas_szamlalo = 0
         
+        # jatekido kiirasa
         font = pygame.font.Font('freesansbold.ttf', 14)
-        ido_szoveg = font.render(str(masodperc_szam), True, WHITE)
-        ido_rect = ido_szoveg.get_rect()
-        ido_rect.x = 500
-        ido_rect.y = 620
+        ido_szamlalo = font.render(str(masodperc_szam), True, WHITE)
+        ido_szamlalo_rect = ido_szamlalo.get_rect()
+        ido_szamlalo_rect.x = 500
+        ido_szamlalo_rect.y = 620
+        
+        font = pygame.font.Font('freesansbold.ttf', 14)
+        ido_szoveg = font.render(f'Játékidő: ', True, WHITE)
+        ido_szoveg_rect = ido_szoveg.get_rect()
+        ido_szoveg_rect.x = 430
+        ido_szoveg_rect.y = 620
         
         # elso auto mozgasa
         if auto1_rect.right <= -50 or auto1_rect.left >= 600:
@@ -119,7 +126,7 @@ def main():
             
         if auto1_rect.right == 0:
             auto1_rect = pygame.Rect(500, 470, auto1_w, auto1_h)
-
+        
         auto1_rect.right += speed_x_1 * direction_1
         pygame.draw.rect(WIN, (0,   255,   0), auto1_rect)
         
@@ -222,7 +229,7 @@ def main():
         beka_szamlalo_rect.y = 20
         
         # harom beka bejutasakor gyozelem, a jatek ujrakezdodik
-        if beka_szam == 3:
+        if beka_szam == 3:          
             #pygame.time.wait(1000)
             return main()
         
@@ -252,7 +259,8 @@ def main():
         #szoveg kiirasa
         WIN.blit(beka_szamlalo, (beka_szamlalo_rect.x, beka_szamlalo_rect.y))
         WIN.blit(elet_szamlalo, (elet_szamlalo_rect.x, elet_szamlalo_rect.y))
-        WIN.blit(ido_szoveg, (ido_rect.x, ido_rect.y))
+        WIN.blit(ido_szamlalo, (ido_szamlalo_rect.x, ido_szamlalo_rect.y))
+        WIN.blit(ido_szoveg, (ido_szoveg_rect.x, ido_szoveg_rect.y))
                               
                 
         # Frissitjuk a teljes kepernyot, hogy ha valtozna valami akkor az megjelenjen
