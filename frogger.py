@@ -15,22 +15,25 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Frogger_PM')
 
 # Kepek importalasa
-
+# hatter importalasa
 hatter = pygame.image.load('hatter.jpg')
 hatter_h = 650
 hatter_w = 550
 hatter = pygame.transform.scale(hatter, (hatter_w, hatter_h))
 
+# beka importalasa
 beka = pygame.image.load('beka.png')
 beka_h = 58
 beka_w = 75
 beka = pygame.transform.scale(beka, (beka_w, beka_h))
 
+# celt jelento level importalasa
 level = pygame.image.load('level.png')
 level_h = 105
 level_w = 115
 level = pygame.transform.scale(level, (level_w, level_h))
 
+# harom auto importalasa
 auto1 = pygame.image.load('auto.png')
 auto1_h = 75
 auto1_w = 108
@@ -64,7 +67,7 @@ def main():
     masodperc_szam = 0
     kattanas_szamlalo = 0
     
-    # Kepek befoglalo negszogenek beallitasa
+    # Kepek befoglalo negyszogenek beallitasa
     hatter_rect = pygame.Rect(0, 0, hatter_w, hatter_h)
     beka_rect = pygame.Rect(240, 590, beka_w, beka_h)
     level_rect = pygame.Rect(225, 0, level_w, level_h)
@@ -173,7 +176,7 @@ def main():
             (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
                 run = False
              
-            # Beka mozgasanak beallitasa AWSD            
+            # Beka mozgasa AWSD billentyűkkel           
             if event.type == KEYDOWN:
                 if event.key ==K_d:
                     beka_rect.x += VEL
